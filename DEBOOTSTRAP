@@ -1,0 +1,19 @@
+# How to build a debootstrap chroot for coq mingw32 compilation
+# P. Letouzey, preliminary version
+
+sudo debootstrap sid debian_sid_chroot
+sudo chroot debian_sid_chroot /bin/bash
+export LC_ALL=C
+export HOME=/root
+mount -t proc none /proc
+aptitude install \
+  liblablgtk2-ocaml-dev camlp5 mingw32-ocaml nsis \
+  ocaml git svn cdbs debhelper dh-ocaml wget devscripts quilt \
+  libncurses5-dev libgtk2.0-dev
+dget --build -u http://debian.glondu.net/mingw32/mingw32-gtk2_2.18.7+20100213+1.dsc
+dpkg -i mingw32-gtk2*.deb
+dget --build -u http://debian.glondu.net/mingw32/mingw32-camlp5_5.12-3.dsc
+dpkg -i mingw32-camlp5*.deb
+dget --build -u http://debian.glondu.net/mingw32/mingw32-lablgtk2_2.14.0+dfsg-4.dsc
+dpkg -i mingw32-lablgtk2*.deb
+

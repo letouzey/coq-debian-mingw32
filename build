@@ -1,0 +1,27 @@
+#!/bin/sh
+
+VERSION="8.3-trunk"
+
+## Checking debian installation
+
+DEPS="liblablgtk2-ocaml-dev camlp5 mingw32-ocaml mingw32-gtk2 mingw32-camlp5 mingw32-lablgtk2 nsis"
+
+if dpkg -l $DEPS > /dev/null; then
+ echo "Debian packages correctly installed. Good!"
+else
+ echo "Some debian package are missing. Please install them first. "
+ echo "For the unofficial ones, see http://git.debian.org/~glondu/mingw32/"
+ exit 1
+fi
+
+gunzip make.exe.gz -c > make.exe
+
+## first a build for the cross-compiled binaries
+## then a usual local build (for the theories)
+## and finally we build the windows installer
+
+HERE=$PWD
+cd coq-src && make clean && \
+./configure -prefix "" -arch win32 && ./build win32 && \
+./configure -local --with-doc no && make -j4 && \
+cd $HERE && makensis -DVERSION=$VERSION coq.nsi
