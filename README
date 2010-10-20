@@ -10,6 +10,9 @@ Pierre Letouzey (@pps.jussieu.fr)
    ocaml subversion cdbs debhelper dh-ocaml wget devscripts quilt
    libncurses5-dev libgtk2.0-dev
 
+   If you want to create a specialized debian chroot for this purpose,
+   have a look at the DEBOOTSTRAP file
+
 2) Install the following unofficial ones:
  
    mingw32-camlp5 mingw32-gtk2 mingw32-lablgtk2
@@ -27,8 +30,8 @@ Pierre Letouzey (@pps.jussieu.fr)
   
 3) Get Coq sources and install them in ./coq-src, for instance via:
 
-  svn co svn://scm.gforge.inria.fr/svn/coq/trunk ./coq-src
+  svn co svn://scm.gforge.inria.fr/svn/coq/branches/v8.3 ./coq-src
 
-4) Build (after adapting version number in ./build):
+4) Build (after adapting version number in ./build and in coq-src/configure):
 
    ./build

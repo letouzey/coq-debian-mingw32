@@ -17,6 +17,7 @@ SetCompressor bzip2
 !define OUTFILE "coq-installer-${VERSION}.exe"
 
 !include "MUI.nsh"
+!include "FileAssociation.nsh"
 
 ;--------------------------------
 ;Configuration
@@ -195,6 +196,8 @@ Section "CoqIde" Sec2
   SetOutPath "$INSTDIR"
   CreateShortCut "$SMPROGRAMS\Coq\CoqIde.lnk" "$INSTDIR\Coqide.bat" "" "$INSTDIR\bin\coq.ico" 0 
 
+  ${registerExtension} "$INSTDIR\Coqide.bat" ".v" "Coq Script File"
+
 SectionEnd
 
 Section  "The GTK DLLs (needed by CoqIde)" Sec3
@@ -282,5 +285,7 @@ Section "Uninstall"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Coq"
   RMDir "$INSTDIR"
   RMDir "$SMPROGRAMS\Coq"
+
+  ${unregisterExtension} ".v" "Coq Script File"
 
 SectionEnd
