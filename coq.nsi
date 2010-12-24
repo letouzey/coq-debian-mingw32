@@ -95,13 +95,6 @@ Section "Coq" Sec1
 
   SetOutPath "$INSTDIR\"
 
-  FileOpen $0 $INSTDIR\Coq.bat w
-  FileWrite $0 "@echo off$\r$\n"
-  FileWrite $0 "set PATH=%PATH%;$INSTDIR\bin$\r$\n"
-  FileWrite $0 "set HOME=%HOMEPATH%$\r$\n"
-  FileWrite $0 "coqtop.exe -coqlib $\"$INSTDIR$\"\lib %*" 
-  FileClose $0
-
   SetOutPath "$INSTDIR\bin"
   File /oname=coqtop.exe ${COQ_SRC_PATH}\_build\toplevel\coqtop.native
   File /oname=coqchk.exe ${COQ_SRC_PATH}\_build\checker/main.native
@@ -114,6 +107,7 @@ Section "Coq" Sec1
   File /oname=coqdoc.exe ${COQ_SRC_PATH}\_build\tools\coqdoc\main.native
   File /oname=coqc.exe ${COQ_SRC_PATH}\_build\scripts\coqc.native
   File /oname=coqmktop.exe ${COQ_SRC_PATH}\_build\scripts\coqmktop.native
+  File /oname=mkwinapp.exe ${COQ_SRC_PATH}\_build\tools\mkwinapp.native
   File ${COQ_SRC_PATH}\ide\coq.ico
   File make.exe
 
@@ -168,7 +162,7 @@ Section "Coq" Sec1
   SetOutPath "$INSTDIR" 
 
   CreateDirectory "$SMPROGRAMS\Coq"
-  CreateShortCut "$SMPROGRAMS\Coq\Coq.lnk" "$INSTDIR\Coq.bat" "" "$INSTDIR\bin\coq.ico" 0
+  CreateShortCut "$SMPROGRAMS\Coq\Coq.lnk" "$INSTDIR\bin\coqtop.exe"
   WriteINIStr "$SMPROGRAMS\Coq\The Coq HomePage.url" "InternetShortcut" "URL" "http://coq.inria.fr"
   WriteINIStr "$SMPROGRAMS\Coq\The Coq Standard Library.url" "InternetShortcut" "URL" "http://coq.inria.fr/library"
   CreateShortCut "$SMPROGRAMS\Coq\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
@@ -180,13 +174,6 @@ Section "CoqIde" Sec2
 
   SetOutPath "$INSTDIR"
  
-  FileOpen $0 $INSTDIR\Coqide.bat w
-  FileWrite $0 "@echo off$\r$\n"
-  FileWrite $0 "set PATH=%PATH%;$INSTDIR\bin$\r$\n"
-  FileWrite $0 "set HOME=%HOMEPATH%$\r$\n"
-  FileWrite $0 "coqide.exe -coqlib $\"$INSTDIR$\"\lib %*" 
-  FileClose $0
-
   File /oname=.coqiderc ${COQ_SRC_PATH}\ide\.coqide-gtk2rc
 
   SetOutPath "$INSTDIR\bin"
@@ -194,9 +181,9 @@ Section "CoqIde" Sec2
 
   ; Start Menu Entries
   SetOutPath "$INSTDIR"
-  CreateShortCut "$SMPROGRAMS\Coq\CoqIde.lnk" "$INSTDIR\Coqide.bat" "" "$INSTDIR\bin\coq.ico" 0 
+  CreateShortCut "$SMPROGRAMS\Coq\CoqIde.lnk" "$INSTDIR\bin\coqide.exe"
 
-  ${registerExtension} "$INSTDIR\Coqide.bat" ".v" "Coq Script File"
+  ${registerExtension} "$INSTDIR\bin\coqide.exe" ".v" "Coq Script File"
 
 SectionEnd
 
@@ -227,11 +214,6 @@ SectionEnd
 ;Uninstaller Section
 
 Section "Uninstall"
-
-;; Bat
-
-  Delete "$INSTDIR\Coq.bat"
-  Delete "$INSTDIR\Coqide.bat"
 
 ;; We keep the settings 
 ;;  Delete "$INSTDIR\.coqiderc"

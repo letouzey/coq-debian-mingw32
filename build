@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION="8.3"
+VERSION="8.3pl1"
 
 ## Checking debian installation
 
