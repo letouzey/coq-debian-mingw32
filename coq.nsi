@@ -2,10 +2,10 @@
 
 ;NSIS Modern User Interface
 ;Written by Joost Verburg
-;Modified by Julien Narboux
+;Modified by Julien Narboux and Pierre Letouzey
 
 ;SetCompress off
-SetCompressor bzip2
+SetCompressor lzma
 ; Comment out after debuging.
 
 ; The VERSION should be passed as an argument at compile time using :
@@ -120,7 +120,11 @@ Section "Coq" Sec1
   File /r ${COQ_SRC_PATH}\_build\*.cmxa
   File /r ${COQ_SRC_PATH}\_build\*.cmi
   File /r ${COQ_SRC_PATH}\_build\*.a
-  ; Clean the few .cmi installed directly in \lib
+  ; Since we do not distribution anymore the coqtop.byte,
+  ; the *.cma should be pretty useless, except from grammar.cma
+  ; which might be needed by camlp5 for parsing ml4 files in plugins
+  File /r ${COQ_SRC_PATH}\_build\parsing\grammar.cma
+   ; Clean the few .cmi installed directly in \lib
   Delete *.cmi
   SetOutPath "$INSTDIR\lib\config"
   File /r ${COQ_SRC_PATH}\_build\coq_config.cm* ${COQ_SRC_PATH}\_build\coq_config.o
