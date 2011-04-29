@@ -27,5 +27,7 @@ echo Building Coq $VERSION
 HERE=$PWD
 cd coq-src && make clean && \
 ./configure -prefix "" -arch win32 && ./build win32 && \
+find _build -name \*.native -exec i586-mingw32msvc-strip {} \; && \
+rm -f bin/* && \
 ./configure -local --with-doc no && make -j4 && \
 cd $HERE && makensis -DVERSION=$VERSION coq.nsi
