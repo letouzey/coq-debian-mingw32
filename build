@@ -1,7 +1,5 @@
 #!/bin/sh
 
-VERSION="8.3pl1"
-
 ## Checking debian installation
 
 DEPS="liblablgtk2-ocaml-dev camlp5 mingw32-ocaml mingw32-gtk2 mingw32-camlp5 mingw32-lablgtk2 nsis"
@@ -15,6 +13,12 @@ else
 fi
 
 gunzip make.exe.gz -c > make.exe
+
+## We read $VERSION in configure
+
+VERSION=`egrep "^VERSION=" coq-src/configure | cut -c9-`
+
+echo Building Coq $VERSION
 
 ## first a build for the cross-compiled binaries
 ## then a usual local build (for the theories)

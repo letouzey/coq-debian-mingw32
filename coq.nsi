@@ -120,10 +120,9 @@ Section "Coq" Sec1
   File /r ${COQ_SRC_PATH}\_build\*.cmxa
   File /r ${COQ_SRC_PATH}\_build\*.cmi
   File /r ${COQ_SRC_PATH}\_build\*.a
-  ; Since we do not distribution anymore the coqtop.byte,
-  ; the *.cma should be pretty useless, except from grammar.cma
-  ; which might be needed by camlp5 for parsing ml4 files in plugins
-  File /r ${COQ_SRC_PATH}\_build\parsing\grammar.cma
+   ; caveat! the current script builds only grammar.cma,
+   ; hence only this one is installed for the moment
+  File /r ${COQ_SRC_PATH}\_build\*.cma
    ; Clean the few .cmi installed directly in \lib
   Delete *.cmi
   SetOutPath "$INSTDIR\lib\config"
