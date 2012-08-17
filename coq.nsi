@@ -174,13 +174,14 @@ SectionEnd
 
 Section "CoqIde" Sec2
 
+  SetOutPath "$INSTDIR\config"
+  File /oname=coqide-gtk2rc ${COQ_SRC_PATH}\ide\coqide-gtk2rc
 
-  SetOutPath "$INSTDIR"
- 
-  File /oname=.coqiderc ${COQ_SRC_PATH}\ide\.coqide-gtk2rc
+  SetOutPath "$INSTDIR\share"
+  File /oname=coq.png ${COQ_SRC_PATH}\ide\coq.png
 
   SetOutPath "$INSTDIR\bin"
-  File /oname=coqide.exe ${COQ_SRC_PATH}\_build\ide\coqide.native
+  File /oname=coqide.exe ${COQ_SRC_PATH}\_build\ide\coqide_main.native
 
   ; Start Menu Entries
   SetOutPath "$INSTDIR"
@@ -219,42 +220,19 @@ SectionEnd
 Section "Uninstall"
 
 ;; We keep the settings 
-;;  Delete "$INSTDIR\.coqiderc"
+;; Delete "$INSTDIR\config\coqide-gtk2rc"
  
-;; Binaries
-  Delete "$INSTDIR\bin\*.exe"
-  Delete "$INSTDIR\bin\*.lnk"
- 
-;; Icon
-  Delete "$INSTDIR\bin\coq.ico"
-
-;; DLLs
-
-  Delete "$INSTDIR\bin\*.dll" 
-  RMDir /r "$INSTDIR\bin\etc"
-  RMDir /r "$INSTDIR\bin\lib"
-  RMDir /r "$INSTDIR\bin\share"
-
-  RMDir "$INSTDIR\bin"
-
-;; Misc
-
-  Delete "$INSTDIR\tools\coqdoc\coqdoc.sty"
-  Delete "$INSTDIR\tools\coqdoc\style.css"
-  RMDir "$INSTDIR\latex"
+  RMDir /r "$INSTDIR\bin"
+  RMDir /r "$INSTDIR\dev"
+  RMDir /r "$INSTDIR\etc"
+  RMDir /r "$INSTDIR\lib"
+  RMDir /r "$INSTDIR\share"
 
   Delete "$INSTDIR\man\*.1"
   RMDir "$INSTDIR\man"
 
   Delete "$INSTDIR\emacs\*.el"
   RMDir "$INSTDIR\emacs"
-
-  RMDir /r "$INSTDIR\etc"
-  Delete "$INSTDIR\.coqiderc"
-
-;; Lib
-
-  RMDir /r "$INSTDIR\lib"
 
 ;; Start Menu
   Delete "$SMPROGRAMS\Coq\Coq.lnk"

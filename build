@@ -16,9 +16,13 @@ gunzip make.exe.gz -c > make.exe
 
 ## We read $VERSION in configure
 
-VERSION=`egrep "^VERSION=" coq-src/configure | cut -c9-`
+VERSION=`egrep -m1 "^VERSION=" coq-src/configure | cut -c9-`
 
 echo Building Coq $VERSION
+
+## Now the configure script starts using ocamlfind
+
+export OCAMLFIND_CONF=/etc/i586-mingw32msvc-ocamlfind.conf
 
 ## first a build for the cross-compiled binaries
 ## then a usual local build (for the theories)
@@ -29,5 +33,6 @@ cd coq-src && make clean && \
 ./configure -prefix "" -arch win32 && ./build win32 && \
 find _build -name \*.native -exec i586-mingw32msvc-strip {} \; && \
 rm -f bin/* && \
-./configure -local --with-doc no && make -j4 && \
+./configure -local -opt --with-doc no -coqide no && \
+make -j4 coqlib && \
 cd $HERE && makensis -DVERSION=$VERSION coq.nsi
