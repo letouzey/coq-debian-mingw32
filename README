@@ -1,7 +1,7 @@
 
 Building Coq installer for windows via debian cross-compilation
 ---------------------------------------------------------------
-Pierre Letouzey (@pps.jussieu.fr)
+Pierre Letouzey (@inria.fr)
 
 
 1) Install the following debian packages from official testing/unstable:
@@ -30,7 +30,7 @@ Pierre Letouzey (@pps.jussieu.fr)
   
 3) Get Coq sources and install them in ./coq-src, for instance via:
 
-  svn co svn://scm.gforge.inria.fr/svn/coq/branches/v8.3 ./coq-src
+  svn co svn://scm.gforge.inria.fr/svn/coq/branches/v8.4 ./coq-src
 
 4) Build (after adapting version number in ./build and in coq-src/configure):
 
