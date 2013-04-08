@@ -2,7 +2,7 @@
 
 ## Checking debian installation
 
-DEPS="liblablgtk2-ocaml-dev camlp5 mingw32-ocaml mingw32-gtk2 mingw32-camlp5 mingw32-lablgtk2 nsis"
+DEPS="liblablgtk2-ocaml-dev camlp5 mingw32-ocaml mingw32-gtk2 mingw32-camlp5 mingw32-lablgtk2 nsis wget unzip"
 
 if dpkg -l $DEPS > /dev/null; then
  echo "Debian packages correctly installed. Good!"
@@ -12,7 +12,9 @@ else
  exit 1
 fi
 
-gunzip make.exe.gz -c > make.exe
+## For including a make.exe in the coq package, we fetch it if it isn't here
+
+./fetch_make.sh || exit 1
 
 ## We read $VERSION in configure
 

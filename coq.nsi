@@ -109,7 +109,10 @@ Section "Coq" Sec1
   File /oname=coqmktop.exe ${COQ_SRC_PATH}\_build\scripts\coqmktop.native
   File /oname=mkwinapp.exe ${COQ_SRC_PATH}\_build\tools\mkwinapp.native
   File ${COQ_SRC_PATH}\ide\coq.ico
-  File make.exe
+  ; make.exe and its dll
+  File bin/make.exe
+  File bin/libiconv2.dll
+  File bin/libintl3.dll
 
   SetOutPath "$INSTDIR\lib\theories"
   File /r ${COQ_SRC_PATH}\theories\*.vo
