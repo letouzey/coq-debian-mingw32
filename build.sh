@@ -1,14 +1,16 @@
 #!/bin/sh
 
+## source some common variables
+
+. ./common.sh
+
 ## Checking debian installation
 
-DEPS="liblablgtk2-ocaml-dev camlp5 mingw32-ocaml mingw32-gtk2 mingw32-camlp5 mingw32-lablgtk2 nsis wget unzip"
-
-if dpkg -l $DEPS > /dev/null; then
+if dpkg -l $OFFICIAL_DEPS $CUSTOM_DEPS > /dev/null; then
  echo "Debian packages correctly installed. Good!"
 else
  echo "Some debian package are missing. Please install them first. "
- echo "For the unofficial ones, see http://git.debian.org/~glondu/mingw32/"
+ echo "For the unofficial ones, see subdirectory ./debs or http://git.debian.org/~glondu/mingw32/"
  exit 1
 fi
 
@@ -22,9 +24,9 @@ VERSION=`egrep -m1 "^VERSION=" coq-src/configure | cut -c9-`
 
 echo Building Coq $VERSION
 
-## Now the configure script starts using ocamlfind
+## Number of cores to use when doing parallel make
 
-export OCAMLFIND_CONF=/etc/i586-mingw32msvc-ocamlfind.conf
+CORES=4
 
 ## first a build for the cross-compiled binaries
 ## then a usual local build (for the theories)
@@ -32,9 +34,9 @@ export OCAMLFIND_CONF=/etc/i586-mingw32msvc-ocamlfind.conf
 
 HERE=$PWD
 cd coq-src && make clean && \
-./configure -prefix "" -arch win32 && ./build win32 && \
+./configure -prefix "" -arch win32 --with-doc no && ./build win32 && \
 find _build -name \*.native -exec i586-mingw32msvc-strip {} \; && \
 rm -f bin/* && \
-./configure -local -opt --with-doc no -coqide no && \
-make -j4 coqlib && \
+./configure -local --with-doc no -coqide no && \
+make -j$CORES coqlib && \
 cd $HERE && makensis -DVERSION=$VERSION coq.nsi

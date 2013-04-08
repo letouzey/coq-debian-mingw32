@@ -4,34 +4,44 @@ Building Coq installer for windows via debian cross-compilation
 Pierre Letouzey (@inria.fr)
 
 
-1) Install the following debian packages from official testing/unstable:
-
-   liblablgtk2-ocaml-dev camlp5 mingw32-ocaml nsis
-   ocaml subversion cdbs debhelper dh-ocaml wget devscripts quilt
-   libncurses5-dev libgtk2.0-dev
+1) Packages to install from an official debian squeeze : see $OFFICIAL_DEBS
+   in common.sh
 
    If you want to create a specialized debian chroot for this purpose,
-   have a look at the DEBOOTSTRAP file
+   see debootstrap.sh
 
-2) Install the following unofficial ones:
- 
-   mingw32-camlp5 mingw32-gtk2 mingw32-lablgtk2
+2) Extra custom debian packages to install : see $CUSTOM_DEBS in common.sh
 
-  On amd64, you can simply download pre-built packages, see instructions on
-   http://debian.glondu.net/mingw32/
-  Otherwise on i386 you can build these packages from sources:
+  On amd64, you can simply install the ones from the ./debs/ subdirectory.
 
-  dget --build http://debian.glondu.net/mingw32/mingw32-gtk2_2.18.7+20100213+1.dsc
+  Otherwise on i386 you can build these packages from sources, more information
+  on http://debian.glondu.net/mingw32/. Normally, something like this should work:
+
+  dget --build http://debian.glondu.net/mingw32/mingw32-gtk2_2.22.1-20101227-1.dsc
   sudo dpkg -i mingw32-gtk2*.deb
-  dget --build http://debian.glondu.net/mingw32/mingw32-camlp5_5.12-3.dsc
+  dget --build http://debian.glondu.net/mingw32/mingw32-camlp5_6.02.2-1.dsc
   sudo dpkg -i mingw32-camlp5*.deb
-  dget --build http://debian.glondu.net/mingw32/mingw32-lablgtk2_2.14.0+dfsg-4.dsc
+  dget --build http://debian.glondu.net/mingw32/mingw32-lablgtk2_2.14.2+dfsg-1.1.dsc
   sudo dpkg -i mingw32-lablgtk2*.deb
-  
+
 3) Get Coq sources and install them in ./coq-src, for instance via:
 
   svn co svn://scm.gforge.inria.fr/svn/coq/branches/v8.4 ./coq-src
 
+  or
+
+  git clone git://scm.gforge.inria.fr/coq/coq-svn.git -b v8.4 ./coq-src
+
 4) Build (after adapting version number in ./build and in coq-src/configure):
 
-   ./build
+   ./build.sh
+
+
+NOTES:
+
+* This method only works for Coq 8.4 (and 8.3). Coq trunk is currently
+  unsupported (extra dependencies about sourceview)
+
+* The ocaml packages (straight and mingw32) should have exactly the same
+  version, as well as camlp5, since we share them during configure/coqdep/...
+
