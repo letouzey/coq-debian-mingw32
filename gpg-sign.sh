@@ -1,0 +1,1 @@
+gpg --sign -b --armor "$@"
