@@ -26,11 +26,11 @@ Pierre Letouzey (@inria.fr)
 
 3) Get Coq sources and install them in ./coq-src, for instance via:
 
-  svn co svn://scm.gforge.inria.fr/svn/coq/branches/v8.4 ./coq-src
+  svn co svn://scm.gforge.inria.fr/svn/coq/branches/v8.3 ./coq-src
 
   or
 
-  git clone git://scm.gforge.inria.fr/coq/coq-svn.git -b v8.4 ./coq-src
+  git clone git://scm.gforge.inria.fr/coq/coq-svn.git -b v8.3 ./coq-src
 
 4) Build (after adapting version number in ./build and in coq-src/configure):
 
@@ -39,7 +39,7 @@ Pierre Letouzey (@inria.fr)
 
 NOTES:
 
-* This method only works for Coq 8.4 (and 8.3). Coq trunk is currently
+* This method only works for Coq 8.4 and 8.3. Coq trunk is currently
   unsupported (extra dependencies about sourceview)
 
 * The ocaml packages (straight and mingw32) should have exactly the same
