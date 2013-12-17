@@ -33,10 +33,10 @@ CORES=4
 ## and finally we build the windows installer
 
 HERE=$PWD
-cd coq-src && make clean && \
+rm -rf _build && cd coq-src && make clean && \
 ./configure -prefix "" -arch win32 --with-doc no && ./build win32 && \
 find _build -name \*.native -exec i586-mingw32msvc-strip {} \; && \
-rm -f bin/* && \
+rm -f bin/* && mv _build $HERE && \
 ./configure -local --with-doc no -coqide no && \
 make -j$CORES coqlib && \
-cd $HERE && makensis -DVERSION=$VERSION coq.nsi
+cd $HERE && mv _build coq-src && makensis -DVERSION=$VERSION coq.nsi
